@@ -1,21 +1,27 @@
 package com.swconv.project.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.sql.*;
 
 
 class MysqlConnect {
-    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://sw-database.c70bhcy2r2jo.ap-northeast-2.rds.amazonaws.com:3306/MysqlDB?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul";
-    static final String USER = "admin";
-    static final String PASS = "asdf";
+    @Value("${spring.datasource.driver-class-namel}")
+    static String JDBC_DRIVER;
+    @Value("${spring.datasource.url}")
+    static String DB_URL;
+    @Value("${spring.datasource.usernam}")
+    static String USER;
+    @Value("${spring.datasource.password}")
+    static String PASS;
 
     static String connect() {
         Connection conn = null;
         Statement stmt = null;
         String res = "";
         try{
+
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             stmt = conn.createStatement();
